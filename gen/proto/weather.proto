@@ -1,0 +1,26 @@
+syntax="proto3";
+
+package main;
+
+option go_package = "./gen/pb";
+
+message RequestData {
+  string city = 1;
+}
+
+service WeatherService {
+  rpc Request(RequestData) returns (ResponseBody) {}
+}
+
+message ResponseBody {
+  message LocationBody {
+    string region = 1;
+    string name = 2;
+    string country = 3;
+    string localtime = 4;
+  }
+  message Current {
+    float temp_c = 1;
+    float temp_f = 2;
+  }
+}
