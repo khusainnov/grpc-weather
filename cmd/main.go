@@ -11,6 +11,7 @@ import (
 func main() {
 	logger := logging.GetLogger()
 
+	logger.Infoln("Reading config")
 	if err := godotenv.Load("./config/envs/.env"); err != nil {
 		logger.Infoln("Error due load config: %s", err.Error())
 		return
