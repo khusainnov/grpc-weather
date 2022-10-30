@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	_ "github.com/khusainnov/grpc-weather/doc/statik"
 	pb "github.com/khusainnov/grpc-weather/gen/pb/weather"
 	"github.com/khusainnov/logging"
 	"google.golang.org/grpc"
@@ -65,6 +66,12 @@ func (s *Server) RunGatewayServer(port string) {
 	mux.Handle("/", grpcMux)
 
 	fs := http.FileServer(http.Dir("./doc/swagger"))
+	/*statikFS, err := fs.New()
+	if err != nil {
+		logger.Fatalf("Cannot create statik fs: %s", err.Error())
+	}*/
+
+	//sgHandler := http.StripPrefix("/swagger/", http.FileServer(statikFS))
 	mux.Handle("/swagger/", http.StripPrefix("/swagger/", fs))
 
 	err = http.Serve(lis, mux)

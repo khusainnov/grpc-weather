@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Weather Service",
-    "version": "1.0",
+    "version": "1.1",
     "contact": {
       "name": "gRPC-Weather Microservice",
       "url": "https://github.com/khusainnov/grpc-weather",
@@ -23,6 +23,8 @@
   "paths": {
     "/v1/get_weather": {
       "post": {
+        "summary": "Getting weather in any city",
+        "description": "Sending request on WeatherAPI with city in request and getting response with body about city",
         "operationId": "WeatherService_WeatherRequest",
         "responses": {
           "200": {
