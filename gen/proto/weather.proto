@@ -9,7 +9,7 @@ message RequestData {
 }
 
 service WeatherService {
-  rpc Request(RequestData) returns (ResponseBody) {}
+  rpc WeatherRequest(RequestData) returns (ResponseBody) {}
 }
 
 message ResponseBody {
@@ -19,8 +19,11 @@ message ResponseBody {
     string country = 3;
     string localtime = 4;
   }
+  LocationBody location = 1;
   message Current {
     float temp_c = 1;
     float temp_f = 2;
   }
+  Current current = 2;
 }
+
