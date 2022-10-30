@@ -20,7 +20,7 @@ func main() {
 	s := new(gw.Server)
 
 	logger.Infof("Starting Gateway on port:%s", os.Getenv("HTTP_WEATHER_PORT"))
-	s.RunGatewayServer(os.Getenv("HTTP_WEATHER_PORT"))
+	go s.RunGatewayServer(os.Getenv("HTTP_WEATHER_PORT"))
 
 	logger.Infof("Starting grpc server on port:%s", os.Getenv("GRPC_WEATHER_PORT"))
 	if err := s.RunGRPCServer(os.Getenv("GRPC_WEATHER_PORT")); err != nil {

@@ -48,9 +48,13 @@ func (s *Server) WeatherRequest(ctx context.Context, req *pb.RequestData) (*pb.R
 		TempF: locData.Current.TempF,
 	}
 
+	md := s.extractMetadata(ctx)
+
 	rsp := &pb.ResponseBody{
-		Location: rspLoc,
-		Current:  rspCur,
+		Location:  rspLoc,
+		Current:   rspCur,
+		UserAgent: md.UserAgent,
+		ClientIP:  md.ClientIP,
 	}
 
 	return rsp, nil

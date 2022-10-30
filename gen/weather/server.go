@@ -10,6 +10,7 @@ import (
 	"github.com/khusainnov/logging"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 var (
@@ -42,7 +43,16 @@ func (s *Server) RunGatewayServer(port string) {
 		return
 	}
 
-	grpcMux := runtime.NewServeMux()
+	jsonOptions := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
+		MarshalOptions: protojson.MarshalOptions{
+			UseProtoNames: true,
+		},
+		UnmarshalOptions: protojson.UnmarshalOptions{
+			DiscardUnknown: true,
+		},
+	})
+
+	grpcMux := runtime.NewServeMux(jsonOptions)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -53,6 +63,9 @@ func (s *Server) RunGatewayServer(port string) {
 
 	mux := http.NewServeMux()
 	mux.Handle("/", grpcMux)
+
+	fs := http.FileServer(http.Dir("./doc/swagger"))
+	mux.Handle("/swagger/", http.StripPrefix("/swagger/", fs))
 
 	err = http.Serve(lis, mux)
 	if err != nil {
