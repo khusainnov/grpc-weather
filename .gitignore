@@ -1,3 +1,4 @@
 /gen/config/envs
 Makefile
 docker-compose.yml
+/logs

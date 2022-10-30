@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *WeatherServer) WeatherRequest(ctx context.Context, req *pb.RequestData) (*pb.ResponseBody, error) {
+func (s *Server) WeatherRequest(ctx context.Context, req *pb.RequestData) (*pb.ResponseBody, error) {
 	API := fmt.Sprintf("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", os.Getenv("WEATHER_API_TOKEN"), req.GetCity())
 
 	logger.Infof("Sending request on API: %s", API)

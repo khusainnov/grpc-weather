@@ -2,7 +2,6 @@ package weather
 
 import (
 	"net"
-	"net/http"
 	"time"
 
 	pb "github.com/khusainnov/grpc-weather/gen/pb/proto"
@@ -20,26 +19,8 @@ const (
 )
 
 type Server struct {
-	httpServer *http.Server
-	grpcServer *grpc.Server
-}
-
-type WeatherServer struct {
 	pb.UnimplementedWeatherServiceServer
-}
-
-func (s *Server) RunHTTPServer(port string, handler http.Handler) error {
-	s.httpServer = &http.Server{
-		Addr:              ":" + port,
-		Handler:           handler,
-		ReadTimeout:       timeTTL,
-		ReadHeaderTimeout: timeTTL,
-		WriteTimeout:      timeTTL,
-		IdleTimeout:       timeTTL,
-		MaxHeaderBytes:    1 << 20,
-	}
-
-	return s.httpServer.ListenAndServe()
+	grpcServer *grpc.Server
 }
 
 func (s *Server) RunGRPCServer(port string) error {
@@ -50,7 +31,7 @@ func (s *Server) RunGRPCServer(port string) error {
 	}
 	s.grpcServer = grpc.NewServer()
 
-	pb.RegisterWeatherServiceServer(s.grpcServer, &WeatherServer{})
+	pb.RegisterWeatherServiceServer(s.grpcServer, &Server{})
 	reflection.Register(s.grpcServer)
 
 	return s.grpcServer.Serve(lis)
