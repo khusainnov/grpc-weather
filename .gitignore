@@ -1,4 +1,4 @@
-/gen/config/envs
+/config/envs
 Makefile
 docker-compose.yml
 /logs

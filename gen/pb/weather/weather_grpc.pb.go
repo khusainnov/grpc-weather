@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.7
-// source: proto/weather.proto
+// source: weather/weather.proto
 
 package pb
 
@@ -35,7 +35,7 @@ func NewWeatherServiceClient(cc grpc.ClientConnInterface) WeatherServiceClient {
 
 func (c *weatherServiceClient) WeatherRequest(ctx context.Context, in *RequestData, opts ...grpc.CallOption) (*ResponseBody, error) {
 	out := new(ResponseBody)
-	err := c.cc.Invoke(ctx, "/main.WeatherService/WeatherRequest", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/WeatherService/WeatherRequest", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _WeatherService_WeatherRequest_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/main.WeatherService/WeatherRequest",
+		FullMethod: "/WeatherService/WeatherRequest",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WeatherServiceServer).WeatherRequest(ctx, req.(*RequestData))
@@ -92,7 +92,7 @@ func _WeatherService_WeatherRequest_Handler(srv interface{}, ctx context.Context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var WeatherService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "main.WeatherService",
+	ServiceName: "WeatherService",
 	HandlerType: (*WeatherServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -101,5 +101,5 @@ var WeatherService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/weather.proto",
+	Metadata: "weather/weather.proto",
 }

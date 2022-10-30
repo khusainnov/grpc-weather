@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	pb "github.com/khusainnov/grpc-weather/gen/pb/proto"
+	pb "github.com/khusainnov/grpc-weather/gen/pb/weather"
 	"github.com/khusainnov/grpc-weather/internal/entity"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
