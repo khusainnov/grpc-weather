@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 
 	pb "github.com/khusainnov/grpc-weather/gen/pb/weather"
 	"github.com/khusainnov/grpc-weather/internal/entity"
@@ -15,7 +16,8 @@ import (
 )
 
 func (s *Server) WeatherRequest(ctx context.Context, req *pb.RequestData) (*pb.ResponseBody, error) {
-	API := fmt.Sprintf("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", os.Getenv("WEATHER_API_TOKEN"), req.GetCity())
+	req.City = strings.Replace(req.City, " ", "%20", -1)
+	API := fmt.Sprintf("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", os.Getenv("WEATHER_API_TOKEN"), req.City)
 
 	logger.Infof("Sending request on API: %s", API)
 	resp, err := http.Get(API)

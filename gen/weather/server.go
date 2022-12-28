@@ -59,7 +59,7 @@ func (s *Server) RunGatewayServer(port string) {
 	defer cancel()
 
 	if err = pb.RegisterWeatherServiceHandlerServer(ctx, grpcMux, &Server{}); err != nil {
-		logger.Errorf("Error due registering weather handler server: %s", err.Error())
+		logger.Fatalf("Error due registering weather handler server: %s", err.Error())
 	}
 
 	mux := http.NewServeMux()

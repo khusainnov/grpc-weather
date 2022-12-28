@@ -7,3 +7,4 @@ docker-compose.yml
 /doc/swagger/*.css
 /doc/swagger/*.html
 /doc/swagger/*.js
+.DS_Store
