@@ -5,14 +5,14 @@ services:
     container_name: "grpc-weather-server"
 
     networks:
-      - fullstack
+      - back
 
   app-client:
     container_name: "grpc-weather-client"
 
     networks:
-      - fullstack
+      - back
 
 networks:
-  fullstack:
+  back:
     driver: bridge
