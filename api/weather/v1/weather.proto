@@ -1,0 +1,52 @@
+syntax="proto3";
+
+option go_package = "github.com/khusainnov/grpc-weather/api/weather/v1;wapi";
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Weather Service";
+    version: "1.1";
+    contact: {
+      name: "gRPC-Weather Microservice";
+      url: "https://github.com/khusainnov/grpc-weather";
+      email: "khusainnov@gmail.com";
+    };
+  };
+};
+
+service WeatherService {
+  rpc GetWeather(WeatherRequest) returns (WeatherResponse) {
+    option (google.api.http) = {
+      post: "/v1/get_weather"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Sending request on WeatherAPI with city in request and getting response with body about city";
+      summary: "Getting weather in any city";
+    };
+  }
+}
+
+message WeatherRequest {
+  string city = 1;
+}
+
+message LocationBody {
+  string region = 1;
+  string name = 2;
+  string country = 3;
+  string localtime = 4;
+}
+
+message Current {
+  float temp_c = 1;
+  float temp_f = 2;
+}
+
+message WeatherResponse {
+  LocationBody location = 1;
+  Current current = 2;
+}

@@ -1,0 +1,137 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Weather Service",
+    "version": "1.1",
+    "contact": {
+      "name": "gRPC-Weather Microservice",
+      "url": "https://github.com/khusainnov/grpc-weather",
+      "email": "khusainnov@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "WeatherService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/get_weather": {
+      "post": {
+        "summary": "Getting weather in any city",
+        "description": "Sending request on WeatherAPI with city in request and getting response with body about city",
+        "operationId": "WeatherService_GetWeather",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/WeatherResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WeatherRequest"
+            }
+          }
+        ],
+        "tags": [
+          "WeatherService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Current": {
+      "type": "object",
+      "properties": {
+        "tempC": {
+          "type": "number",
+          "format": "float"
+        },
+        "tempF": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "LocationBody": {
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "localtime": {
+          "type": "string"
+        }
+      }
+    },
+    "WeatherRequest": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        }
+      }
+    },
+    "WeatherResponse": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "$ref": "#/definitions/LocationBody"
+        },
+        "current": {
+          "$ref": "#/definitions/Current"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

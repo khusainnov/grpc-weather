@@ -1,9 +1,2 @@
 .idea
-/config/envs
-Makefile
-docker-compose.yml
-/logs
-/doc/swagger/*.png
-/doc/swagger/*.css
-/doc/swagger/*.html
-/doc/swagger/*.js
+.DS_Store

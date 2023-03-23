@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  app-server:
+    container_name: "grpc-weather-server"
+
+    networks:
+      - fullstack
+
+  app-client:
+    container_name: "grpc-weather-client"
+
+    networks:
+      - fullstack
+
+networks:
+  fullstack:
+    driver: bridge
