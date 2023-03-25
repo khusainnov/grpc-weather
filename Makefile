@@ -29,3 +29,14 @@ generate:
 	go generate ./...
 run:
 	go run cmd/weather/main.go
+
+d-up:
+	docker run --name=db -e POSTGRES_PASSWORD='qwerty' -p 5435:5432 -d --rm postgres
+
+apply:
+	kubectl apply -f deployment/db-deployment.yml
+    kubectl apply -f deployment/db-service.yml
+    kubectl apply -f deployment/weather-deployment.yml
+    kubectl apply -f deployment/weather-service.yml
+
+# kubectl scale --replicas=0 deployment/<your-deployment>

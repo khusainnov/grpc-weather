@@ -14,14 +14,22 @@ import (
 	wapi "github.com/khusainnov/grpc-weather/pkg/weatherapi"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func New(cfg *config.Config) error {
-
 	s := grpc.NewServer(
-		grpc.UnaryInterceptor(logUnaryInterceptor(cfg.L)),
-		grpc.StreamInterceptor(logStreamInterceptor(cfg.L)),
+		grpc.ChainUnaryInterceptor(
+			logUnaryInterceptor(cfg.L),
+		),
+		grpc.ChainStreamInterceptor(
+			logStreamInterceptor(cfg.L),
+		),
 	)
+
+	if cfg.AppMode != config.ProdAppMode {
+		reflection.Register(s)
+	}
 
 	dbClient, err := db.NewClient(cfg)
 	if err != nil {
@@ -38,7 +46,7 @@ func New(cfg *config.Config) error {
 
 	repo := repository.NewRepository(dbClient.GetDB())
 	srv := service.NewService(repo)
-	endpoints := endpoint.NewEndpoint(srv)
+	endpoints := endpoint.NewEndpoint(srv, cfg)
 
 	wapi.RegisterWeatherServiceServer(s, endpoints)
 

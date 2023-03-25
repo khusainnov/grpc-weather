@@ -10,6 +10,7 @@ type AppMode string
 
 const (
 	LocalAppMode AppMode = "local"
+	ProdAppMode  AppMode = "prod"
 )
 
 type Config struct {
@@ -17,10 +18,10 @@ type Config struct {
 	AppMode        AppMode       `env:"APP_MODE" envDefault:"local"`
 	GRPCAddr       string        `env:"GRPC_ADDR" envDefault:":9000"`
 	HTTPAddr       string        `env:"HTTP_ADDR" envDefault:":8082"`
-	PgPort         string        `env:"PG_PORT" envDefault:"5434"`
-	PgHost         string        `env:"PG_HOST" envDefault:"localhost"`
-	PgName         string        `env:"PG_NAME" envDefault:"db"`
-	PgUser         string        `env:"PG_USER" envDefault:"db"`
+	PgPort         string        `env:"PG_PORT" envDefault:"5432"`
+	PgHost         string        `env:"PG_HOST" envDefault:"postgres-db"`
+	PgName         string        `env:"PG_NAME" envDefault:"postgres"`
+	PgUser         string        `env:"PG_USER" envDefault:"postgres"`
 	PgPassword     string        `env:"PG_PASSWORD" envDefault:"qwerty"`
 	PgPingEnabled  bool          `env:"PG_PING_ENABLED" envDefault:"true"`
 	PgPingInterval time.Duration `env:"PG_PING_INTERVAL" envDefault:"40m"`

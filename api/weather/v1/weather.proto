@@ -30,6 +30,10 @@ service WeatherService {
   }
 }
 
+/*service WeatherService {
+  rpc GetWeather(WeatherRequest) returns (WeatherResponse) {}
+}*/
+
 message WeatherRequest {
   string city = 1;
 }

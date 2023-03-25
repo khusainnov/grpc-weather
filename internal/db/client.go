@@ -6,6 +6,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	"github.com/khusainnov/grpc-weather/internal/config"
+	_ "github.com/lib/pq"
 	"gitlab.com/khusainnov/driver/postgres"
 	"go.uber.org/zap"
 )
@@ -18,7 +19,7 @@ func NewClient(cfg *config.Config) (*ClientImpl, error) {
 			User:         cfg.PgUser,
 			Password:     cfg.PgPassword,
 			DBName:       cfg.PgName,
-			SSLMode:      "disabled",
+			SSLMode:      "disable",
 			MaxOpenConns: cfg.PgMaxOpenConn,
 			MaxIdleConns: cfg.PgIdleConn,
 		},

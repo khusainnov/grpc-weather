@@ -1,18 +1,43 @@
 version: "3"
 
 services:
-  app-server:
-    container_name: "grpc-weather-server"
-
+  app:
+    build: .
+    container_name: "grpc-app_v1.0"
+    environment:
+      - GRPC_ADDR=:9003
+      - HTTP_ADDR=:8003
+      - PG_PORT=5432
+    tty: true
+    restart: on-failure
+    ports:
+      - "9003:9003"
+      - "8003:8003"
+    depends_on:
+      - postgres-db
     networks:
       - back
+    volumes:
+      - .:/app
 
-  app-client:
-    container_name: "grpc-weather-client"
-
+  postgres-db:
+    image: postgres:latest
+    container_name: "grpc-app-db_v1.0"
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=postgres-db
     networks:
       - back
 
 networks:
   back:
     driver: bridge
+#    ipam:
+#      driver: test-network
+#      config:
+#        - subnet: 172.25.0.0/24
+#          gateway: 172.25.0.13

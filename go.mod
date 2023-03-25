@@ -3,8 +3,11 @@ module github.com/khusainnov/grpc-weather
 go 1.18
 
 require (
+	github.com/caarlos0/env/v6 v6.10.1
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2
 	github.com/jmoiron/sqlx v1.3.5
+	github.com/lib/pq v1.10.7
+	gitlab.com/khusainnov/driver v0.2.0
 	go.uber.org/zap v1.24.0
 	google.golang.org/genproto v0.0.0-20230322174352-cde4c949918d
 	google.golang.org/grpc v1.54.0
@@ -13,7 +16,6 @@ require (
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
-	gitlab.com/khusainnov/driver v0.2.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/net v0.8.0 // indirect

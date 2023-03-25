@@ -12,6 +12,6 @@ FROM gcr.io/distroless/base-debian11
 
 COPY --from=builder app/weather .
 
-EXPOSE 80
+EXPOSE 9003 8003
 
 CMD ["/weather"]
