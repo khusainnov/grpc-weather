@@ -2,17 +2,19 @@ package repository
 
 import (
 	"github.com/jmoiron/sqlx"
-	"github.com/khusainnov/grpc-weather/internal/model"
 )
 
 type Weather interface {
-	UploadWeather(city string) (*model.Weather, error)
+	UploadWeather(city string) error
 }
 
 type Repository struct {
 	Weather
+	db *sqlx.DB
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{}
+	return &Repository{
+		db: db,
+	}
 }

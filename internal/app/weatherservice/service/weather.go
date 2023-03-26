@@ -53,5 +53,9 @@ func (s *Service) GetWeather(cfg *config.Config, req *wapi.WeatherRequest) (*wap
 		Current:  rspCur,
 	}
 
+	if err = s.repo.UploadWeather(rsp.Location.Region); err != nil {
+		return nil, fmt.Errorf("cannot write data into db, %w", err)
+	}
+
 	return rsp, nil
 }

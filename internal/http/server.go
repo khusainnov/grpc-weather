@@ -1,8 +1,10 @@
 package http
 
 import (
+	"net"
 	"net/http"
 
+	"github.com/khusainnov/grpc-weather/internal/app/weatherservice/endpoint"
 	"github.com/khusainnov/grpc-weather/internal/config"
 	"go.uber.org/zap"
 )
@@ -23,13 +25,18 @@ func New(cfg *config.Config) *Server {
 	}
 }
 
-func (s *Server) Start() {
-	s.srv.Handler = s.setupRoutes()
+func (s *Server) Start(e *endpoint.Endpoint) {
+	s.srv.Handler = s.setupRoutes(e)
 
 	go func() {
+		lis, err := net.Listen("tcp", s.cfg.HTTPAddr)
+		if err != nil {
+			s.cfg.L.Fatal("error listen http & gateway server", zap.Any("PORT", s.cfg.HTTPAddr), zap.Error(err))
+		}
+
 		s.cfg.L.Info("start listening http", zap.String("PORT", s.cfg.HTTPAddr))
-		if err := s.srv.ListenAndServe(); err != nil {
-			s.cfg.L.Fatal("error run http", zap.Error(err))
+		if err := http.Serve(lis, s.srv.Handler); err != nil {
+			s.cfg.L.Fatal("error run http & gateway server", zap.Error(err))
 		}
 	}()
 }

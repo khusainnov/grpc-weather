@@ -33,10 +33,17 @@ run:
 d-up:
 	docker run --name=db -e POSTGRES_PASSWORD='qwerty' -p 5435:5432 -d --rm postgres
 
+m-up:
+	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' up
+m-down:
+	migrate -path ./scheme -database 'postgres://postgres:qwerty@postgres-db:5432/postgres?sslmode=disable' down
+
 apply:
-	kubectl apply -f deployment/db-deployment.yml
-    kubectl apply -f deployment/db-service.yml
-    kubectl apply -f deployment/weather-deployment.yml
-    kubectl apply -f deployment/weather-service.yml
+	kubectl apply -f deployment/db-deployment.yml && \
+    kubectl apply -f deployment/db-service.yml && \
+    kubectl apply -f deployment/weather-deployment.yml && \
+    kubectl apply -f deployment/weather-service.yml && \
+    kubectl apply -f deployment/redis-deployment.yaml && \
+    kubectl apply -f deployment/redis-service.yaml
 
 # kubectl scale --replicas=0 deployment/<your-deployment>
