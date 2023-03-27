@@ -6,14 +6,13 @@ import (
 	"net/http"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/khusainnov/grpc-weather/internal/app/weatherservice/endpoint"
 	wapi "github.com/khusainnov/grpc-weather/pkg/weatherapi"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func (s *Server) setupRoutes(e *endpoint.Endpoint) *http.ServeMux {
+func (s *Server) setupRoutes() *http.ServeMux {
 	grpcMux := runtime.NewServeMux()
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}

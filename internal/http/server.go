@@ -3,7 +3,6 @@ package http
 import (
 	"net/http"
 
-	"github.com/khusainnov/grpc-weather/internal/app/weatherservice/endpoint"
 	"github.com/khusainnov/grpc-weather/internal/config"
 	"go.uber.org/zap"
 )
@@ -24,8 +23,8 @@ func New(cfg *config.Config) *Server {
 	}
 }
 
-func (s *Server) Start(e *endpoint.Endpoint) {
-	s.srv.Handler = s.setupRoutes(e)
+func (s *Server) Start() {
+	s.srv.Handler = s.setupRoutes()
 
 	go func() {
 		s.cfg.L.Info("start listening http", zap.String("PORT", s.cfg.HTTPAddr))

@@ -41,14 +41,14 @@ func New(cfg *config.Config) error {
 		return fmt.Errorf("cannot create listener, %w", err)
 	}
 
+	httpServer := http.New(cfg)
+	httpServer.Start()
+
 	repo := repository.NewRepository(dbClient.GetDB())
 	srv := service.NewService(repo)
 	endpoints := endpoint.NewEndpoint(srv, cfg)
 
 	wapi.RegisterWeatherServiceServer(s, endpoints)
-
-	httpServer := http.New(cfg)
-	httpServer.Start(endpoints)
 
 	cfg.L.Info("starting listening grpc server", zap.Any("PORT", cfg.GRPCAddr))
 	if err := s.Serve(lis); err != nil {
