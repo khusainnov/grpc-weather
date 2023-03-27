@@ -23,11 +23,6 @@ func (s *Server) setupRoutes(e *endpoint.Endpoint) *http.ServeMux {
 		return nil
 	}
 
-	/*if err := wapi.RegisterWeatherServiceHandlerServer(context.Background(), grpcMux, e); err != nil {
-		s.cfg.L.Error("cannot register weather gateway", zap.Error(err))
-		return nil
-	}*/
-
 	mux := http.NewServeMux()
 	mux.Handle("/", grpcMux)
 
