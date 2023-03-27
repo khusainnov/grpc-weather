@@ -2,19 +2,24 @@ package http
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/khusainnov/grpc-weather/internal/app/weatherservice/endpoint"
 	wapi "github.com/khusainnov/grpc-weather/pkg/weatherapi"
 	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func (s *Server) setupRoutes(e *endpoint.Endpoint) *http.ServeMux {
 	grpcMux := runtime.NewServeMux()
 
-	if err := wapi.RegisterWeatherServiceHandlerServer(context.Background(), grpcMux, e); err != nil {
-		s.cfg.L.Error("cannot register weather gateway", zap.Error(err))
+	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+
+	if err := wapi.RegisterWeatherServiceHandlerFromEndpoint(context.Background(), grpcMux, fmt.Sprintf("localhost%s", s.cfg.GRPCAddr), opts); err != nil {
+		s.cfg.L.Error("cannot register gateway handler from endpoint", zap.Error(err))
 		return nil
 	}
 

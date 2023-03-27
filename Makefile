@@ -36,7 +36,7 @@ d-up:
 m-up:
 	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' up
 m-down:
-	migrate -path ./scheme -database 'postgres://postgres:qwerty@postgres-db:5432/postgres?sslmode=disable' down
+	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' down
 
 apply:
 	kubectl apply -f deployment/db-deployment.yml && \
