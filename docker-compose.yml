@@ -12,7 +12,7 @@ services:
     restart: on-failure
     ports:
       - "9003:9003"
-      - "8003:80"
+      - "8003:8003"
     depends_on:
       - postgres-db
     networks:
@@ -35,9 +35,9 @@ services:
 
 networks:
   back:
-    driver: bridge
-#    ipam:
-#      driver: test-network
-#      config:
-#        - subnet: 172.25.0.0/24
-#          gateway: 172.25.0.13
+    driver: test-network
+    ipam:
+      driver: test-network
+      config:
+        - subnet: 172.25.0.0/24
+          gateway: 172.25.0.13

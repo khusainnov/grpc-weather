@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 
 	"github.com/khusainnov/grpc-weather/internal/config"
 	"github.com/khusainnov/grpc-weather/internal/model"
@@ -15,7 +16,9 @@ import (
 )
 
 func (s *Service) GetWeather(cfg *config.Config, req *wapi.WeatherRequest) (*wapi.WeatherResponse, error) {
-	API := fmt.Sprintf("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", cfg.WeatherToken, req.GetCity())
+	city := strings.Replace(req.GetCity(), " ", "%20", -1)
+
+	API := fmt.Sprintf("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", cfg.WeatherToken, city)
 
 	resp, err := http.Get(API)
 	if err != nil {
