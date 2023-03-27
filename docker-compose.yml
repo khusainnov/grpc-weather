@@ -36,8 +36,8 @@ services:
 networks:
   back:
     driver: bridge
-#    ipam:
-#      driver: test-network
-#      config:
-#        - subnet: 172.25.0.0/24
-#          gateway: 172.25.0.13
+    ipam:
+      driver: test-network
+      config:
+        - subnet: 172.25.0.0/24
+          gateway: 172.25.0.13
