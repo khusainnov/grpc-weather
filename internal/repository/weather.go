@@ -18,14 +18,14 @@ func (r *Repository) UploadWeather(city string) error {
 	}
 
 	if !exists {
-		if _, err := r.db.Query(queryInsert, city); err != nil {
+		if _, err := r.db.Exec(queryInsert, city); err != nil {
 			return fmt.Errorf("cannot insert city into %s, %w", cityTable, err)
 		}
 
 		return nil
 	}
 
-	if _, err := r.db.Query(queryUpdate, city); err != nil {
+	if _, err := r.db.Exec(queryUpdate, city); err != nil {
 		return fmt.Errorf("error due update %s, %w", cityTable, err)
 	}
 

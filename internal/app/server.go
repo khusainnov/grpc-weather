@@ -2,8 +2,10 @@ package app
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"net"
+	"path/filepath"
 
 	"github.com/khusainnov/grpc-weather/internal/app/weatherservice/endpoint"
 	"github.com/khusainnov/grpc-weather/internal/app/weatherservice/service"
@@ -14,22 +16,40 @@ import (
 	wapi "github.com/khusainnov/grpc-weather/pkg/weatherapi"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 )
 
 func New(cfg *config.Config) error {
-	s := grpc.NewServer(
+	var s *grpc.Server
+
+	if cfg.AppMode == config.ProdAppMode {
+		tlsCert, err := loadTLSCertificate(cfg)
+		if err != nil {
+			return fmt.Errorf("cannot load tls certificate, %w", err)
+		}
+
+		s = grpc.NewServer(
+			grpc.ChainUnaryInterceptor(
+				logUnaryInterceptor(cfg.L),
+			),
+			grpc.ChainStreamInterceptor(
+				logStreamInterceptor(cfg.L),
+			),
+			grpc.Creds(tlsCert),
+		)
+	}
+
+	s = grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
 			logUnaryInterceptor(cfg.L),
 		),
 		grpc.ChainStreamInterceptor(
 			logStreamInterceptor(cfg.L),
 		),
+		//grpc.Creds(tls),
 	)
-
-	if cfg.AppMode != config.ProdAppMode {
-		reflection.Register(s)
-	}
+	reflection.Register(s)
 
 	dbClient, err := db.NewClient(cfg)
 	if err != nil {
@@ -83,4 +103,19 @@ func logStreamInterceptor(log *zap.Logger) grpc.StreamServerInterceptor {
 
 		return handler(srv, ss)
 	}
+}
+
+func loadTLSCertificate(cfg *config.Config) (credentials.TransportCredentials, error) {
+	serveCert, err := tls.LoadX509KeyPair(filepath.Join(cfg.CertPath, "server-cert.pem"), filepath.Join(cfg.CertPath, "server-key.pem"))
+	if err != nil {
+		cfg.L.Error("cannot load the tls certificate", zap.Error(err))
+		return nil, fmt.Errorf("error due load the tls certificate, %w", err)
+	}
+
+	tlsConfig := &tls.Config{
+		Certificates: []tls.Certificate{serveCert},
+		ClientAuth:   tls.NoClientCert,
+	}
+
+	return credentials.NewTLS(tlsConfig), nil
 }

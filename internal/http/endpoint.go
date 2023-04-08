@@ -28,7 +28,8 @@ func (s *Server) setupRoutes() *http.ServeMux {
 	mux.HandleFunc("/alive", func(w http.ResponseWriter, r *http.Request) {
 		s.cfg.L.Info("alive endpoint")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("<h1>Server is working</h1>"))
+		_, _ = w.Write([]byte("<h1>Server is working</h1>"))
+
 		return
 	})
 

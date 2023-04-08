@@ -3,7 +3,7 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -26,7 +26,7 @@ func (s *Service) GetWeather(cfg *config.Config, req *wapi.WeatherRequest) (*wap
 		return nil, status.Errorf(codes.Internal, "cannot get weather data from API: %v", err)
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		cfg.L.Error("error due reading response body from API", zap.Error(err))
 		return nil, status.Errorf(codes.Internal, "error due reading response body from API %v", err)
@@ -56,7 +56,12 @@ func (s *Service) GetWeather(cfg *config.Config, req *wapi.WeatherRequest) (*wap
 		Current:  rspCur,
 	}
 
-	if err = s.repo.UploadWeather(rsp.Location.Region); err != nil {
+	if rsp.Location.Region == "" {
+		cfg.L.Error("incorrect city/region")
+		return rsp, status.Error(codes.InvalidArgument, "incorrect city/region")
+	}
+
+	if err = s.repo.UploadWeather(rsp.Location.Name); err != nil {
 		return nil, fmt.Errorf("cannot write data into db, %w", err)
 	}
 

@@ -28,6 +28,9 @@ type Config struct {
 	PgMaxOpenConn  int           `env:"PG_MAX_OPEN_CONN" envDefault:"10"`
 	PgIdleConn     int           `env:"PG_MAX_IDLE_CONN" envDefault:"10"`
 
+	// SSL/TLS certificate
+	CertPath string `env:"CERT_PATH" envDefault:"./third_party/cert"`
+
 	// Weather API Token
 	WeatherToken string `env:"WEATHER_API_TOKEN" envDefault:"c46b15514212497bb9a162423220904"`
 }
