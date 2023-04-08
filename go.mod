@@ -15,8 +15,11 @@ require (
 )
 
 require (
+	github.com/golang-migrate/migrate/v4 v4.15.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	go.uber.org/atomic v1.7.0 // indirect
+	github.com/hashicorp/errwrap v1.1.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
+	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
