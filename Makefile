@@ -1,6 +1,7 @@
 API_PATH=api/weather
 PROTO_OUT_DIR=pkg/weatherapi
 PROTO_API_DIR=$(API_PATH)
+ARGS=-fix
 
 .PHONY: gen
 gen: gen-proto generate
@@ -27,11 +28,24 @@ test:
 
 generate:
 	go generate ./...
+
+lint:
+	go/lint proto/lint
+
+go/lint:
+	golangci-lint run  --config=.golangci.yml --timeout=30s ./...
+
+proto/lint:
+	protolint lint $(ARGS) $(PROTO_API_DIR)/*
+
 run:
 	go run cmd/weather/main.go
 
 d-up:
 	docker run --name=db -e POSTGRES_PASSWORD='qwerty' -p 5435:5432 -d --rm postgres
+
+d-exec:
+	docker exec -it grpc-app-db_v1.0 /bin/bash
 
 m-up:
 	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' up
@@ -47,3 +61,6 @@ apply:
     kubectl apply -f deployment/redis-service.yaml
 
 # kubectl scale --replicas=0 deployment/<your-deployment>
+
+# TODO: minikube ingress (open ports)
+# TODO: deploy to kubernetes 1 replica postgres DB and 3 replicas of application

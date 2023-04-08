@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/caarlos0/env/v6"
@@ -30,8 +29,6 @@ func main() {
 	if err := env.Parse(cfg); err != nil {
 		cfg.L.Fatal("cannot parse config", zap.Error(err))
 	}
-
-	fmt.Println(cfg.L)
 
 	if err := app.New(cfg); err != nil {
 		l.Fatal("error due run the server", zap.Error(err))
