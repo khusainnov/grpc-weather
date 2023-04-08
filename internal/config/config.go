@@ -27,6 +27,8 @@ type Config struct {
 	PgPingInterval time.Duration `env:"PG_PING_INTERVAL" envDefault:"40m"`
 	PgMaxOpenConn  int           `env:"PG_MAX_OPEN_CONN" envDefault:"10"`
 	PgIdleConn     int           `env:"PG_MAX_IDLE_CONN" envDefault:"10"`
+	PgSSLMode      string        `env:"PG_SSL_MODE" envDefault:"disable"`
+	MigrationPath  string        `env:"MIGRATE_PATH" envDefault:"file://scheme"`
 
 	// SSL/TLS certificate
 	CertPath string `env:"CERT_PATH" envDefault:"./third_party/cert"`

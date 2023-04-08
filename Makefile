@@ -18,8 +18,6 @@ gen-proto:
       	--openapiv2_out=$(PROTO_OUT_DIR) --openapiv2_opt=allow_merge=true,merge_file_name=weather \
     ./$(PROTO_API_DIR)/v1/*.proto
 
-run:
-	go run cmd/main.go
 evans:
 	evans --port 9001 -r repl
 
