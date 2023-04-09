@@ -47,7 +47,6 @@ func New(cfg *config.Config) error {
 		grpc.ChainStreamInterceptor(
 			logStreamInterceptor(cfg.L),
 		),
-		//grpc.Creds(tls),
 	)
 	reflection.Register(s)
 

@@ -49,13 +49,13 @@ m-up:
 	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' up
 
 m-k8s-up:
-	migrate -path ./scheme -database 'postgres://postgres:postgres@localhost:59615/postgres?sslmode=disable' up
+	migrate -path ./scheme -database 'postgres://postgres:postgres@localhost:54831/postgres?sslmode=disable' up
 
 m-down:
 	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' down
 
 m-k8s-down:
-	migrate -path ./scheme -database 'postgres://postgres:postgres@localhost:59615/postgres?sslmode=disable' down
+	migrate -path ./scheme -database 'postgres://postgres:postgres@localhost:54831/postgres?sslmode=disable' down
 
 db:
 	kubectl apply -f manifestos/deployment/db-deployment.yml && \
@@ -70,6 +70,3 @@ ingress:
 
 #kubectl exec postgres-5dff8659dd-94c7d -- psql -U postgres postgres -c "\d+"
 # kubectl scale --replicas=0 deployment/<your-deployment>
-
-# TODO: minikube ingress (open ports)
-# TODO: deploy to kubernetes 1 replica postgres DB and 3 replicas of application
