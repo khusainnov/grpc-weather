@@ -51,12 +51,11 @@ m-down:
 	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' down
 
 apply:
-	kubectl apply -f deployment/db-deployment.yml && \
-    kubectl apply -f deployment/db-service.yml && \
-    kubectl apply -f deployment/weather-deployment.yml && \
-    kubectl apply -f deployment/weather-service.yml && \
-    kubectl apply -f deployment/redis-deployment.yaml && \
-    kubectl apply -f deployment/redis-service.yaml
+	kubectl apply -f manifestos/deployment/ingress-hosts.yml && \
+	kubectl apply -f manifestos/deployment/db-deployment.yml && \
+    kubectl apply -f manifestos/deployment/db-service.yml && \
+    kubectl apply -f manifestos/deployment/weather-deployment.yml && \
+    kubectl apply -f manifestos/deployment/weather-service.yml
 
 # kubectl scale --replicas=0 deployment/<your-deployment>
 
