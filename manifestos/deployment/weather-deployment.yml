@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grpc-weather
+  name: grpc-weather-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: grpc-weather
+      app: grpc-weather-app
   template:
     metadata:
       labels:
-        app: grpc-weather
+        app: grpc-weather-app
     spec:
       containers:
-        - name: grpc-weather
-          image: grpc-weather:latest
+        - name: grpc-weather-app
+          image: khusainnov/grpc-weather-app_v1.0:latest
           ports:
             - containerPort: 9003
             - containerPort: 8003
           envFrom:
             - configMapRef:
-                name: grpc-weather
+                name: grpc-weather-app

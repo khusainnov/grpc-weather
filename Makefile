@@ -47,17 +47,28 @@ d-exec:
 
 m-up:
 	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' up
+
+m-k8s-up:
+	migrate -path ./scheme -database 'postgres://postgres:postgres@localhost:59615/postgres?sslmode=disable' up
+
 m-down:
 	migrate -path ./scheme -database 'postgres://postgres:qwerty@localhost:5434/postgres?sslmode=disable' down
 
-apply:
-	kubectl apply -f deployment/db-deployment.yml && \
-    kubectl apply -f deployment/db-service.yml && \
-    kubectl apply -f deployment/weather-deployment.yml && \
-    kubectl apply -f deployment/weather-service.yml && \
-    kubectl apply -f deployment/redis-deployment.yaml && \
-    kubectl apply -f deployment/redis-service.yaml
+m-k8s-down:
+	migrate -path ./scheme -database 'postgres://postgres:postgres@localhost:59615/postgres?sslmode=disable' down
 
+db:
+	kubectl apply -f manifestos/deployment/db-deployment.yml && \
+    kubectl apply -f manifestos/deployment/db-service.yml
+weather-app:
+	kubectl apply -f manifestos/deployment/weather-deployment.yml && \
+    kubectl apply -f manifestos/deployment/weather-service.yml
+configmap:
+	kubectl apply -f manifestos/deployment/configmap.yml
+ingress:
+	kubectl apply -f manifestos/deployment/ingress-hosts.yml
+
+#kubectl exec postgres-5dff8659dd-94c7d -- psql -U postgres postgres -c "\d+"
 # kubectl scale --replicas=0 deployment/<your-deployment>
 
 # TODO: minikube ingress (open ports)
