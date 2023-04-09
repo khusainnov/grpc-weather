@@ -5,10 +5,10 @@ metadata:
 data:
   PG_HOST: "10.110.150.159"
   PG_PORT: "5434"
-  PG_USER: postgres
-  PG_PASSWORD: postgres
-  POSTGRES_PASSWORD: postgres
-  PG_NAME: postgres
+  PG_USER: "postgres"
+  PG_PASSWORD: "postgres"
+  POSTGRES_PASSWORD: "postgres"
+  PG_NAME: "postgres"
   PG_PING_ENABLED: "true"
   PG_MAX_OPEN_CONN: "10"
   PG_MAX_IDLE_CONN: "10"
