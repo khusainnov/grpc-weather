@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: grpc-weather-app
-          image: grpc-weather-app_v1.0
+          image: khusainnov/grpc-weather-app_v1.0:latest
           ports:
             - containerPort: 9003
             - containerPort: 8003
