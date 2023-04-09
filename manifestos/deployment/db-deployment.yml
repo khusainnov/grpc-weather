@@ -15,23 +15,6 @@ spec:
       containers:
         - name: postgres
           image: postgres
-#          env:
-#            - name: PG_USER
-#              value: postgres
-#            - name: PG_PASSWORD
-#              value: qwerty
-#            - name: PG_PORT
-#              value: "5434"
-#            - name: PG_NAME
-#              value: postgres
-#            - name: PG_HOST
-#              value: postgres-db
-#            - name: PG_PING_ENABLED
-#              value: "true"
-#            - name: POSTGRES_PASSWORD
-#              value: qwerty
-#            - name: POSTGRES_PORT
-#              value: "5434"
           envFrom:
             - configMapRef:
                 name: grpc-weather-app

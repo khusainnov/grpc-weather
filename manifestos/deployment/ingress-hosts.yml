@@ -23,5 +23,3 @@ spec:
                 name: grpc-weather-app
                 port:
                   number: 8003
-
-
